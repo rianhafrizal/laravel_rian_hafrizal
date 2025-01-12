@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OutletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,16 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/outlet', [OutletController::class, 'index'])->name('outlet.index');
+Route::get('outlet/list.json',[OutletController::class,'Getlist4form'])->name('list.outlet');
+Route::get('outlet/byid',[OutletController::class,'GetOutletByid'])->name('outlet.byid');
+Route::post('outlet/store',[OutletController::class,'store'])->name('outlet.store');
+Route::post('outlet/update',[OutletController::class,'update'])->name('outlet.update');
+Route::post('outlet/delete',[OutletController::class,'delete'])->name('outlet.delete');
+
+
 
 Route::get('/tes', function () {
     return terbilang(200000307);
