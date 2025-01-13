@@ -29,5 +29,21 @@ class table_outlet extends Model
         return DB::select("SELECT * from table_outlet where id=?",[$id]);
     }
 
+    public static function Store($nama,$alamat,$email,$telp)
+    {
+        return DB::INSERT("insert into table_outlet(nama,alamat,email,telp) values(UPPER(?),?,?,?)",[$nama,$alamat,$email,$telp]);
+    }
+
+    public static function UpdateOutlet($id,$nama,$alamat,$email,$telp)
+    {
+        return DB::UPDATE("UPDATE table_outlet set nama=UPPER(?), alamat=?, email=?, telp=? where id=?",[$nama,$alamat,$email,$telp,$id]);
+    }
+
+
+    public static function DeleteOutet($id)
+    {
+        return DB::delete("Delete from table_outlet where id=?",[$id]);
+    }
+
 
 }

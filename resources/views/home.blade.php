@@ -9,8 +9,8 @@
 
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item">Data Rumah Sakit</li>
-                        <li class="list-group-item">Data Pasien</li>
+                        <li class="list-group-item" ><a  href="{!! route('outlet.index')!!}">Data Rumah Sakit</a></li>
+                        <li class="list-group-item"><a  href="{!! route('pasien.index')!!}">Data Pasien</a></li>
                         
                       </ul>
 

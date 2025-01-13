@@ -1,6 +1,14 @@
 <div id="form_outlet">
     <input type="hidden" class="form-control form-control-sm" id="t_id">
-    <label class="form-label">Nama </label>
+
+    <label class="form-label">Nama RS</label>
+    <div class="input-group mb-3">
+        <select type="text" class="form-control form-control-sm" id="t_id_outlet">
+
+        </select>
+    </div>
+
+    <label class="form-label">Nama Pasien</label>
     <div class="input-group mb-3">
         <input type="text" class="form-control form-control-sm" id="t_nama">
     </div>

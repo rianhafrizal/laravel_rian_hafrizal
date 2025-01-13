@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\table_outlet;
+use App\Models\table_pasien;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 use Livewire\Attributes\Validate;
 use Dotenv\Validator;
 use App\Http\Controllers\Throwable;
 
-class OutletController extends Controller
+class PasienController extends Controller
 {
     public function __construct()
     {
@@ -20,7 +21,7 @@ class OutletController extends Controller
 
     public function index()
     {
-        return view('outlet.index');
+        return view('pasien.index');
     }
 
     public function store(Request $request)
@@ -86,12 +87,7 @@ class OutletController extends Controller
     public function Getlist4form(){
         $data = table_outlet::getoutletAll();
         return DataTables::of($data)->toJson();
+        
+
     }
-
-    public function GetRSALL(){
-        $data = table_outlet::getoutletAll();
-        return $data;
-    }
-
-
 }
