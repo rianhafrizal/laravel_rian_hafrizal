@@ -15,7 +15,7 @@
                 @include('outlet.form')
             </div>
 
-            <div class="card-body">
+           
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" id="tbl_outlet">
@@ -33,7 +33,7 @@
 
                 </div>
 
-            </div>
+            
         </div>
     </div><!-- /.container-fluid -->
 </div>
@@ -49,7 +49,8 @@
             $('#t_nama').val('');
             $('#t_alamat').val('');
             $('#t_email').val('');
-            $('#t_telp').focus();
+            $('#t_telp').val('');
+            $('#t_nama').focus();
             refresh_table();
             console.log("Clear");
         }

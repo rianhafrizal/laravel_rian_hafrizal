@@ -32,7 +32,7 @@ Route::get('/outlet/all', [OutletController::class, 'GetRSALL'])->name('outlet.a
 
 Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
 Route::get('pasien/list.json',[PasienController::class,'Getlist4form'])->name('list.pasien');
-Route::get('pasien/byid',[PasienController::class,'GetOutletByid'])->name('pasien.byid');
+Route::get('pasien/byid',[PasienController::class,'GetPasienByid'])->name('pasien.byid');
 Route::post('pasien/store',[PasienController::class,'store'])->name('pasien.store');
 Route::post('pasien/update',[PasienController::class,'update'])->name('pasien.update');
 Route::post('pasien/delete',[PasienController::class,'delete'])->name('pasien.delete');

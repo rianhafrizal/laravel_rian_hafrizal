@@ -15,26 +15,25 @@
                 @include('pasien.form')
             </div>
 
-            <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tbl_pasien">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nama</th>
-                                <th>Alamat </th>
-                                <th>Email</th>
-                                <th>No Tlp</th>
-                                <th width="15%">Options</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tbl_pasien">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Alamat </th>
+                            <th>Email</th>
+                            <th>Rumah Sakit</th>
+                            <th width="15%">Options</th>
+                        </tr>
+                    </thead>
+                </table>
 
             </div>
+
         </div>
+
     </div><!-- /.container-fluid -->
 </div>
 </div>
@@ -43,40 +42,39 @@
 @push('script')
 
     <script>
-
-$(document).ready(function(){
- 
- url = '/outlet/all' ;
-    $.ajax({
-       url: url,
-       success: function(data){
-          $('#t_id_outlet').empty();
-           $('#t_id_outlet').append( $('<option />')
-                 .text('Pilih RS')
-                  .val(0)
+        function getRs() {
+            url = '/outlet/all';
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $('#t_id_outlet').empty();
+                    $('#t_id_outlet').append($('<option />')
+                        .text('Pilih RS')
+                        .val(0)
                     );
                     console.log(data);
-          for(i = 0; i < data.length; i++){      
-                 $('#t_id_outlet').append(
-                 $('<option />')
-                 .text(data[i]['nama'])
-                  .val(data[i]['id'])
+                    for (i = 0; i < data.length; i++) {
+                        $('#t_id_outlet').append(
+                            $('<option />')
+                            .text(data[i]['nama'])
+                            .val(data[i]['id'])
 
-                    );
-                 }},
-       dataType: 'json'
-     }); 
-  
-});
+                        );
+                    }
+                },
+                dataType: 'json'
+            });
+        }
 
         function clear() {
 
             $('#form_pasien').hide();
             $('#t_nama').val('');
             $('#t_alamat').val('');
-            $('#t_email').val('');
-            $('#t_telp').focus();
+            $('#t_telp').val('');
+            $('#t_nama').focus();
             refresh_table();
+            getRs();
             console.log("Clear");
         }
 
@@ -109,9 +107,9 @@ $(document).ready(function(){
                 "autoWidth": false,
                 "responsive": true,
 
-                ajax: '{!! route('list.pasien') !!}',
+                ajax: "{!! route('list.pasien') !!}",
                 columns: [{
-                        data: 'id',
+                        data: 'id_pasien',
                         name: 'id'
                     },
                     {
@@ -121,18 +119,18 @@ $(document).ready(function(){
 
                     {
                         data: 'alamat',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'email',
-                        name: 'updated_at'
+                        name: 'alamat'
                     },
                     {
                         data: 'telp',
-                        name: 'updated_at'
+                        name: 'telp'
                     },
                     {
-                        data: 'id',
+                        data: 'nama_rs',
+                        name: 'nama_rs'
+                    },
+                    {
+                        data: 'id_pasien',
                         "render": function (data, type, row) {
 
                             return ' <button onclick="Edit_pasien(' + data +
@@ -165,10 +163,12 @@ $(document).ready(function(){
                     _token: "{!! csrf_token() !!}"
                 },
                 success: function (msg) {
-                    $('#t_id').val(msg[0]['id']);
+
+                    $('#t_id').val(msg[0]['id_pasien']);
                     $('#t_nama').val(msg[0]['nama']);
                     $('#t_alamat').val(msg[0]['alamat']);
-                    $('#t_email').val(msg[0]['email']);
+                    //   $('#t_id_outlet').text(msg[0]['nama_rs']);
+                    $('#t_id_outlet').val(msg[0]['id_outlet']);
                     $('#t_telp').val(msg[0]['telp']);
                     console.log(msg);
 
@@ -180,7 +180,39 @@ $(document).ready(function(){
 
         }
 
+        function add_pasien() {
+            var id_outlet = $('#t_id_outlet').val();
+            var nama = $('#t_nama').val();
+            var alamat = $('#t_alamat').val();
+            var telp = $('#t_telp').val();
+            var id_pasien = $('#t_id').val();
+            var link = "{{ route('pasien.store') }}";
+            $.ajax({
+                type: 'POST',
+                url: link,
+                data: {
+                    nama: nama,
+                    alamat: alamat,
+                    telp: telp,
+                    'id_pasien': id_pasien,
+                    'id_outlet': id_outlet,
+                    _token: "{!! csrf_token() !!}"
+                },
+                success: function (msg) {
+                    //      alert(msg);
+                    swall_sukses('Tambah !', msg);
+                    clear();
+                },
+                error: function (xhr, textnilai, errorThrown) {
+                    //  alert('Error : '+errorThrown);
+                }
+            });
+
+            refresh_table();
+        }
+
         function update_pasien() {
+            var id_outlet = $('#t_id_outlet').val();
             var nama = $('#t_nama').val();
             var alamat = $('#t_alamat').val();
             var email = $('#t_email').val();
@@ -196,6 +228,7 @@ $(document).ready(function(){
                     email: email,
                     telp: telp,
                     'id_pasien': id_pasien,
+                    'id_outlet': id_outlet,
                     _token: "{!! csrf_token() !!}"
                 },
                 success: function (msg) {
@@ -222,21 +255,21 @@ $(document).ready(function(){
         }
 
 
-        function Simpan_pasien() {
+        function save_pasien() {
             var nama = $('#t_nama').val();
             var alamat = $('#t_alamat').val();
-            var email = $('#t_email').val();
+            var id_outlet = $('#t_id_outlet').val();
             var telp = $('#t_telp').val();
             var link = "{{ route('pasien.store') }}";
             $.ajax({
                 type: 'POST',
                 url: link,
                 data: {
-                    nama: nama,
-                    alamat: alamat,
-                    email: email,
-                    telp: telp,
-                    _token: "{!! csrf_token() !!}"
+                    _token: "{!! csrf_token() !!}",
+                    'nama': nama,
+                    'alamat': alamat,
+                    't_id_outlet': t_id_outlet,
+                    'telp': telp
                 },
                 success: function (msg) {
                     //      alert(msg);
@@ -304,6 +337,7 @@ $(document).ready(function(){
 
         $(window).on("load", function () {
             $('#form_pasien').hide();
+            getRs();
         });
     </script>
 @endpush

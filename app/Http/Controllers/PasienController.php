@@ -28,11 +28,11 @@ class PasienController extends Controller
     {
         $p_nama = $request->input('nama');
         $p_alamat = $request->input('alamat');
-        $p_email = $request->input('email');
+        $id_outlet = $request->input('id_outlet');
         $p_telp = $request->input('telp');
 
         try {
-                table_outlet::Store($p_nama,$p_alamat,$p_email,$p_telp);
+                table_pasien::Store($p_nama,$p_alamat,$id_outlet,$p_telp);
             } catch (Throwable $e) {
                 report($e);
                 return false;
@@ -41,9 +41,9 @@ class PasienController extends Controller
     return 'Tambah '.$p_nama.' Berhasil !!' ;
     }
 
-    public function GetOutletByid(Request $request){
-        $p_id = $request->input('id_outlet');
-        return $data = table_outlet::getoutletByid($p_id);
+    public function GetPasienByid(Request $request){
+        $p_id = $request->input('id_pasien');
+        return $data = table_pasien::getpasienByid($p_id);
        
 
     }
@@ -52,13 +52,13 @@ class PasienController extends Controller
       
         $p_nama = $request->input('nama');
         $p_alamat = $request->input('alamat');
-        $p_email = $request->input('email');
         $p_telp = $request->input('telp');
-        $p_id = $request->input('id_outlet');
+        $p_id = $request->input('id_pasien');
+        $id_outlet = $request->input('id_outlet');
         
   
           try {
-                  table_outlet::UpdateOutlet($p_id,$p_nama,$p_alamat,$p_email,$p_telp);
+                  table_pasien::Updatepasien($p_id,$p_nama,$p_alamat,$id_outlet,$p_telp);
               } catch (Throwable $e) {
                 return  report($e);
                    
@@ -70,10 +70,10 @@ class PasienController extends Controller
 
     public function delete(Request $request){
       
-        $p_id = $request->input('id_outlet');
+        $p_id = $request->input('id_pasien');
   
           try {
-                table_outlet::DeleteOutet($p_id);
+                table_pasien::DeleteOutet($p_id);
               } catch (Throwable $e) {
                   report($e);
                   return false;
@@ -85,7 +85,7 @@ class PasienController extends Controller
       }
 
     public function Getlist4form(){
-        $data = table_outlet::getoutletAll();
+        $data = table_pasien::getpasienAll();
         return DataTables::of($data)->toJson();
         
 
